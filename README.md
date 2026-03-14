@@ -6,17 +6,39 @@ Takes two markdown files, renders them to HTML via pandoc, and produces a
 structural diff of the rendered output. The result is a standalone HTML file
 with inline additions and deletions highlighted in context.
 
-## Usage
+## Installation
 
 ```
-python md-rich-diff.py old.md new.md [-o output.html]
+pip install .
+```
+
+Requires [pandoc](https://pandoc.org/) to be installed separately.
+
+## Usage
+
+### CLI
+
+```
+md-rich-diff old.md new.md [-o output.html]
 ```
 
 Output defaults to `diff-<old>-vs-<new>.html`.
 
+The ASCII table converter is also available standalone:
+
+```
+ascii-table input.md [-o output.md]
+```
+
+### As a library
+
+```python
+from md_diff import render_markdown, diff_sections, convert_ascii_tables
+```
+
 ## How it works
 
-1. **ASCII table pre-processing** — `ascii_table.py` detects code blocks
+1. **ASCII table pre-processing** — `ascii_table` detects code blocks
    containing Unicode box-drawing characters (│┌┐└┘├┤┬┴┼─ etc.), parses
    their grid structure, and converts them to HTML `<table>` elements before
    pandoc sees them.  This prevents pandoc from treating diagrams as plain
@@ -36,13 +58,7 @@ Output defaults to `diff-<old>-vs-<new>.html`.
    producing per-cell inline diffs with inserted/deleted/changed row
    styling.
 
-## `ascii_table.py`
-
-Also usable standalone as a pre-processor:
-
-```
-python ascii_table.py input.md [-o output.md]
-```
+## ASCII table features
 
 Handles complex box-drawing diagrams including:
 - Partial separators and spanning (rowspan) columns
@@ -53,5 +69,5 @@ Handles complex box-drawing diagrams including:
 ## Dependencies
 
 - Python 3.10+
-- [pandoc](https://pandoc.org/)
-- [lxml](https://lxml.de/)
+- [pandoc](https://pandoc.org/) (external)
+- [lxml](https://lxml.de/) (installed automatically via pip)

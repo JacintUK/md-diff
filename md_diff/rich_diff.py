@@ -444,10 +444,19 @@ def diff_body(old_body: str, new_body: str) -> str:
                     else:
                         result.append(f'<div class="diff-removed-block">{old_after}</div>')
             else:
-                # Fall back: show all old as deleted, all new as inserted
-                for b in old_chunk:
+                # Pair up blocks positionally and diff them inline
+                pairs = min(len(old_chunk), len(new_chunk))
+                for k in range(pairs):
+                    ob, nb = old_chunk[k], new_chunk[k]
+                    if is_table(ob) and is_table(nb):
+                        result.append(diff_table(ob, nb))
+                    else:
+                        result.append(htmldiff(ob, nb))
+                # Leftover old blocks = deleted
+                for b in old_chunk[pairs:]:
                     result.append(f'<div class="diff-removed-block">{b}</div>')
-                for b in new_chunk:
+                # Leftover new blocks = inserted
+                for b in new_chunk[pairs:]:
                     result.append(f'<div class="diff-added-block">{b}</div>')
 
         elif op == "delete":
