@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "md-diff"
+version = "0.1.0"
+description = "Rendered markdown diff — like GitHub's Rich Diff, locally"
+requires-python = ">=3.10"
+dependencies = ["lxml"]
+
+[project.scripts]
+md-rich-diff = "md_diff.rich_diff:main"
+ascii-table = "md_diff.ascii_table:main"

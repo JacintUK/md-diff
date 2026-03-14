@@ -16,7 +16,7 @@ from pathlib import Path
 
 from lxml.html.diff import htmldiff
 
-from ascii_table import convert_ascii_tables
+from md_diff.ascii_table import convert_ascii_tables
 
 CSS = """
 body {
