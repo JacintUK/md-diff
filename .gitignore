@@ -4,3 +4,4 @@ __pycache__/
 *.patch
 .claude/
 *~
+*.egg-info/
